@@ -4,39 +4,38 @@ import { IAddress } from "../interfaces/address.interface";
 import { genderEnum } from "../enums.ts/genderEnum";
 
 export class CreateUserDto {
+    @IsNotEmpty({message: 'Поле email обязательно для заполнения'})
     @IsEmail()
     email: string;
 
-
+    @IsString({message:"Загрузите вашу аватарку"})
     avatar: string;
     
-    
-
     avatarId: string;
     
     
 
-    @IsString()
-    @IsNotEmpty()
+    @IsString({message:"Поле имя должно быть строкой"})
+    @IsNotEmpty({message: 'Поле Имя обязательно для заполения '})
     name: string;
     
 
-    @IsString()
-    @IsNotEmpty()
+    @IsString({message:"Поле Фамилия должно быть строкой"})
+    @IsNotEmpty({message: 'Поле Фамилия обязательно для заполения '})
     suname: string;
     
 
     @IsNumber()
-    @IsNotEmpty()
+    @IsNotEmpty({message:"Укажите ваш возраст"})
     age: number;
     
 
     @IsOptional()
-
+    @IsNotEmpty({message:"Укажите ваш адрес проживания "})
     address: IAddress;
 
 
-    @IsNotEmpty()
+    @IsNotEmpty({message:'Укажите ваш контакный телефон'})
     @IsString()
     phone: string;
     
@@ -51,7 +50,7 @@ export class CreateUserDto {
     @IsString()
     @IsNotEmpty()
     @Matches( /^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{16,})/,
-    { message: 'Weak password' },)
+    { message: 'Слабый пароль ' },)
     password:string;
 
 

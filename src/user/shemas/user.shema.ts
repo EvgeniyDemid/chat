@@ -2,7 +2,7 @@ import * as mongoose from 'mongoose';
 import { genderEnum } from '../enums.ts/genderEnum';
 import { roleEnum } from '../enums.ts/roleEnum';
 
-export const CustomerSchema = new mongoose.Schema({
+export const UserSchema = new mongoose.Schema({
     email: {type:String, required:true},
     avatar:{type:String, default:null},
     avatarId:{type:String, default:null},
@@ -19,4 +19,4 @@ export const CustomerSchema = new mongoose.Schema({
     password:{type:String, required:true},
     role:{type:[String], required:true, enum: Object.values(roleEnum)}
   });
-  CustomerSchema.index({email: 1}, {unique : true})
+  UserSchema.index({email: 1}, {unique : true})

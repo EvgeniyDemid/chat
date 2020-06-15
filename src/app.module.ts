@@ -6,15 +6,18 @@ import { AuthService } from './auth/auth.service';
 import { AuthController } from './auth/auth.controller';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
+import { TokenService } from './token/token.service';
+import { TokenModule } from './token/token.module';
 
 @Module({
   imports: [
     configModule,
     mongodbModule,
     AuthModule,
-    UserModule
+    UserModule,
+    TokenModule
   ],
   controllers: [AuthController],
-  providers: [AppService, AuthService],
+  providers: [AppService, TokenService],
 })
 export class AppModule {}
