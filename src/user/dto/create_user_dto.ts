@@ -1,7 +1,7 @@
 
 import { IsEmail, IsString, IsNotEmpty, IsNumber, IsPassportNumber, Matches, IsOptional, IsEnum } from "class-validator";
-import { IAddress } from "../interfaces/address.interface";
 import { genderEnum } from "../enums.ts/genderEnum";
+import { AddressDto } from "./address.dto";
 
 export class CreateUserDto {
     @IsNotEmpty({message: 'Поле email обязательно для заполнения'})
@@ -30,9 +30,8 @@ export class CreateUserDto {
     age: number;
     
 
-    @IsOptional()
-    @IsNotEmpty({message:"Укажите ваш адрес проживания "})
-    address: IAddress;
+    @IsOptional({message:"Укажите ваш адрес проживания "})
+    address: AddressDto;
 
 
     @IsNotEmpty({message:'Укажите ваш контакный телефон'})

@@ -1,8 +1,9 @@
-import { Controller, Post, Body, Get, Param, Put } from '@nestjs/common';
+import { Controller, Post, Body, Get, Param, Put, Delete, Patch } from '@nestjs/common';
 import { CreateUserDto } from './dto/create_user_dto';
 import { IUser } from './interfaces/user.Interface';
 import { UserService } from './user.service';
 import { UpdateUserDto } from './dto/update_user_dto';
+import { UpdatePasswordDto } from './dto/update_password_dto';
 
 @Controller('user')
 export class UserController {
@@ -18,14 +19,21 @@ export class UserController {
     }
 
     @Get(':id')
-    findOne(@Param('id') id:string){
+    findOne(@Param('id') id: string){
         return this.userService.findOne(id)
     }
     @Put(':id')
     updateOne(@Body() updateUserDto: UpdateUserDto, @Param('id') id: string): Promise<IUser>{
-        return this.userService.updateOne(id,updateUserDto)
+        return this.userService.updateOne(id, updateUserDto)
     }
 
-    
+    @Delete(':id')
+    remove(@Param('id') id: string){
+        return this.userService.deleteOne(id) 
+    }
+    @Patch(':id')
+    updatePassword(@Body() updatePasswordDto: UpdatePasswordDto, @Param('id') id: string){
+        return this.userService.updatePassword(id, updatePasswordDto)
+    }
 
 }

@@ -30,6 +30,7 @@
     "bcrypt": "^5.0.0",
     "class-transformer": "^0.2.3",
     "class-validator": "^0.12.2",
+    "dotenv": "^8.2.0",
     "fastify-swagger": "^2.6.0",
     "lodash": "^4.17.15",
     "mongoose": "^5.9.18",
