@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, BadRequestException, HttpStatus, HttpException} from '@nestjs/common';
 import { IUser } from './interfaces/user.Interface';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
@@ -7,15 +7,22 @@ import * as bcrypt from 'bcrypt';
 import * as _ from 'lodash';
 import { UpdateUserDto } from './dto/update_user_dto';
 import { UpdatePasswordDto } from './dto/update_password_dto';
+import {plainToClass} from 'class-transformer';
+import { UserRestonsDto } from './dto/user-restons.dto';
 
 @Injectable()
 export class UserService {
     constructor(@InjectModel("User") private readonly UserModel: Model<IUser>){}
 
    async create (createUserDro: CreateUserDto, role: Array<string>): Promise<IUser>{
+       const{password,email, ...rest} = createUserDro;
+       const userByEmail = await this.UserModel.findOne({email})
+       if (userByEmail){
+           throw new HttpException('Пользователь с таким email уже существет ', HttpStatus.CONFLICT);    
+       }
        const saltRounds = 10;
        const salt = await bcrypt.genSalt(saltRounds);
-       const hash = await bcrypt.hash(createUserDro.password, salt);
+       const hash = await bcrypt.hash(password, salt);
        const createUser = new this.UserModel(_.assignIn(createUserDro, {password: hash, role}));
        return await createUser.save()
    } 
@@ -24,8 +31,14 @@ export class UserService {
        return await this.UserModel.find()
    }
 
-   async findOne(id):Promise<IUser>{
-       return await this.UserModel.findById(id)
+   async findOne(id):Promise<UserRestonsDto>{
+
+       const userRw =  await this.UserModel.findById(id);
+       
+       const userRw1 = plainToClass(UserRestonsDto, userRw, {excludeExtraneousValues: true});
+       console.log(userRw1)
+       return userRw1
+
    }
 
    async updateOne(id: string , updateUserDto: UpdateUserDto):Promise<IUser>{

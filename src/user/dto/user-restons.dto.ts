@@ -1,10 +1,8 @@
-
 import { IsEmail, IsString, IsNotEmpty, IsNumber, IsPassportNumber, Matches, IsOptional, IsEnum } from "class-validator";
 import { genderEnum } from "../enums.ts/genderEnum";
 import { AddressDto } from "./address.dto";
-import { Exclude } from "class-transformer";
 
-export class CreateUserDto {
+export class UserRestonsDto {
     @IsNotEmpty({message: 'Поле email обязательно для заполнения'})
     @IsEmail()
     email: string;
@@ -46,11 +44,6 @@ export class CreateUserDto {
     @IsEnum(genderEnum)
     gender: string;
     
-    @IsString()
-    @IsNotEmpty()
-    @Matches( /^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{16,})/,
-    { message: 'Слабый пароль ' },)
-    password:string;
 
 
     role:Array<string>;
