@@ -24,7 +24,9 @@ export class UserService {
        const salt = await bcrypt.genSalt(saltRounds);
        const hash = await bcrypt.hash(password, salt);
        const createUser = new this.UserModel(_.assignIn(createUserDro, {password: hash, role}));
-       return await createUser.save()
+       await createUser.save();
+       return await this.UserModel.findOne({email})
+        
    } 
 
    async findAll():Promise<IUser[]>{
@@ -35,13 +37,20 @@ export class UserService {
 
        const userRw =  await this.UserModel.findById(id);
        
-       const userRw1 = plainToClass(UserRestonsDto, userRw, {excludeExtraneousValues: true});
-       console.log(userRw1)
-       return userRw1
+       if (!userRw){
+        throw new HttpException('Пользователь с таким id не найден  ', HttpStatus.NOT_FOUND);    
+    }
+    return userRw
 
    }
 
    async updateOne(id: string , updateUserDto: UpdateUserDto):Promise<IUser>{
+       
+    const userRw =  await this.UserModel.findById(id);
+       
+    if (!userRw){
+     throw new HttpException('Пользователь с таким id не найден  ', HttpStatus.NOT_FOUND);   
+    }
 
     return await this.UserModel.findByIdAndUpdate(id, updateUserDto,{new: true})
    }
