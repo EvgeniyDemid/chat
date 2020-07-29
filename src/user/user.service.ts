@@ -7,8 +7,6 @@ import * as bcrypt from 'bcrypt';
 import * as _ from 'lodash';
 import { UpdateUserDto } from './dto/update_user_dto';
 import { UpdatePasswordDto } from './dto/update_password_dto';
-import {plainToClass} from 'class-transformer';
-import { UserRestonsDto } from './dto/user-restons.dto';
 
 @Injectable()
 export class UserService {
@@ -33,7 +31,7 @@ export class UserService {
        return await this.UserModel.find()
    }
 
-   async findOne(id):Promise<UserRestonsDto>{
+   async findOne(id):Promise<IUser>{
 
        const userRw =  await this.UserModel.findById(id);
        
