@@ -28,7 +28,7 @@
     "@nestjs/mongoose": "^7.0.1",
     "@nestjs/passport": "^7.1.0",
     "@nestjs/platform-express": "^7.0.0",
-    "@nestjs/swagger": "^4.5.10",
+    "@nestjs/swagger": "^4.5.12",
     "bcrypt": "^5.0.0",
     "class-transformer": "^0.2.3",
     "class-validator": "^0.12.2",
@@ -66,7 +66,7 @@
     "ts-loader": "^6.2.1",
     "ts-node": "^8.6.2",
     "tsconfig-paths": "^3.9.0",
-    "typescript": "^3.7.4"
+    "typescript": "^3.9.7"
   },
   "jest": {
     "moduleFileExtensions": [

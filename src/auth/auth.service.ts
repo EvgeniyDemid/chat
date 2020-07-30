@@ -1,27 +1,43 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Options, UnauthorizedException } from '@nestjs/common';
 import { UserService } from 'src/user/user.service';
 import { JwtService } from '@nestjs/jwt';
+import { TokenService } from 'src/token/token.service';
+import { CreateUserTokenDto } from 'src/token/dto/create-user-token.dto';
+import { SignOptions } from 'jsonwebtoken';
 
 @Injectable()
 export class AuthService {
     constructor(
         private userServise: UserService,
-        private jwtService: JwtService
+        private jwtService: JwtService,
+        private tokenService: TokenService
 
 
     ){}
-    async validateUser(username: string, pass: string): Promise<any>{
-        const user = await this.userServise.findOne(username)
-        if (user && user.password === pass){
-            const {password, ...result} = user;
-            return result
-        }
-        return null
-    }
-    async login ( user: any){
-        const payload = { username: user.username, sub: user.userId };
-        return {
-            access_token: this.jwtService.sign(payload),
-          };
-    }
+  singIn(email, password){
+
+  }
+  private async generateToken(data, options?: SignOptions):Promise<string>{
+      return this.jwtService.sign(data,options)
+  }
+  private async verifyToken(token):Promise<any>{
+      try{
+          const data = this.jwtService.verify(token);
+          const tokenExists = await this.tokenService.exist(data._id, token);
+          if(tokenExists){
+              return data
+          }
+          throw new UnauthorizedException();
+      } catch (error){
+          throw new UnauthorizedException()
+      }
+      
+    
+  }
+  private async saveToken(createUserTokenDto: CreateUserTokenDto) {
+    const userToken = await this.tokenService.create(createUserTokenDto);
+
+    return userToken;
+}
+  
 }
