@@ -68,4 +68,8 @@ export class UserService {
        await this.UserModel.findByIdAndDelete(id)
        return `{User by id: ${id} delete}`
    }
+
+   async findByemail(email: string):Promise<IUser>{
+       return await this.UserModel.findOne({email})
+   }
 }
