@@ -16,7 +16,7 @@ export const UserSchema = new mongoose.Schema({
     },
     phone:{type:String, default:null},
     gender: {type:String, required:true, enum: Object.values(genderEnum)},
-    password:{type:String, required:true,select: false},
+    password:{type:String, required:true,select: true},
     role:{type:[String], required:true, enum: Object.values(roleEnum)}
   });
   UserSchema.index({email: 1}, {unique : true})
