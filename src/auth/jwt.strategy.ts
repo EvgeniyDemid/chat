@@ -12,20 +12,11 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     private readonly tokenService: TokenService,
   ) {
     super({
-      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      jwtFromRequest: ExtractJwt.fromHeader('access_token'),
       secretOrKey: configService.get<string>('JWT_SICRET'),
       passReqToCallback: true,
     });
   }
-  async validate(req, user: Partial<IUser>) {
-    console.log(user);
-    const token = req.headers.authorization.splice(7);
-
-    const tokenExists = await this.tokenService.exist(user._id, token);
-    if (tokenExists) {
-      return user;
-    } else {
-       throw new UnauthorizedException();
-    }
-  }
-}
+  validate(payload: IUser): IUser {
+    return payload;
+}}

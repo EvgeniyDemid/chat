@@ -43,7 +43,8 @@ export class UserService {
   }
 
   async findAll(): Promise<IUser[]> {
-    return await this.UserModel.find();
+    const data = await this.UserModel.find();
+  return data.map(user=>_.omit<any>(user.toObject(), Object.values(userSensitiveFieldsEnum)))
   }
 
   async findOne(id): Promise<IUser> {
